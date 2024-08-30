@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  username    String       @unique
+  password    String
+  purchases   Purchase[]
+  reservations Reservation[]
+}
+
+model Event {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String
+  date         DateTime
+  capacity     Int
+  image        String?
+  reservations Reservation[]
+  purchases    Purchase[]    // Add this line to define the reverse relation
+}
+
+model Reservation {
+  id      Int     @id @default(autoincrement())
+  userId  Int
+  eventId Int
+  status  String  @default("reserved")
+
+  user    User    @relation(fields: [userId], references: [id])
+  event   Event   @relation(fields: [eventId], references: [id])
+}
+
+model Purchase {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  eventId    Int
+  timestamp  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id])
+  event      Event    @relation(fields: [eventId], references: [id])
+}
