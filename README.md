@@ -5,11 +5,6 @@ E ticketing system
 
 A Event ticket booking system complex authroization and role based authentication
 
-## Features
-
-- Only Admins can add remove and update books 
-- One book can be borrowed by a single user at once 
-- Once returned other users can also borrow it
 
 ## Technologies Used
 
